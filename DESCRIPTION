@@ -1,0 +1,17 @@
+Package: quiltr
+Type: Package
+Title: Interfaces with Quilt Data Package Manager
+Version: 0.1.0
+Authors@R: c(
+    person("Chris", "Hua", email = "hua.christopher@gmail.com", role = c("aut", "cre"))
+    )
+Description: R package to work with https://github.com/quiltdata/quilt
+License: Apache License 2.0
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Depends: magrittr,
+    jsonlite,
+    stringr,
+    sparklyr,
+    rhdf5
