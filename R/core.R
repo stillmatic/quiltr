@@ -39,10 +39,17 @@ qsearch <- function(str) {
 qpeek <- function(str) {
     path <- paste0("~/quilt_packages/", str, ".json")
     package_info <- jsonlite::fromJSON(path)
-    cat(names(temp$children), sep = "\n")
+    cat(names(package_info$children), sep = "\n")
 }
 
+#' helper function for shell output
+#'
+#' @param x command to run
+#'
+#' @return prints output of some command
+#'
+#' @examples
+#' cat_sys("ls")
 cat_sys <- function(x) {
-    # little helper function for shell output
     cat(system(x, intern = T), sep = "\n")
 }
