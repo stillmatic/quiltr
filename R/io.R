@@ -9,15 +9,25 @@
 #' @examples
 #' qload("akarve/examples", "sales") %>% head
 #' qload("akarve/examples", "README")
+#' qload("examples/wine", "quality")
+#' qload("examples/wine", "quality/red")
 qload <- function(pkg, file) {
     path <- paste0("~/quilt_packages/", pkg, ".json")
+
+    if(!(file.exists(path))) {
+        stop(sprintf("package '%s' not found in local installation", pkg))
+    }
+
     package_info <- jsonlite::fromJSON(path)
 
+    nodes <- stringr::str_split(file, "/")
+
     if(!(file %in% names(package_info$children))) {
-        stop("file not found in package")
+        stop(sprintf("file '%s' not found in package", file))
     }
 
     file_info <- magrittr::extract2(package_info$children, file)
+
     if(!("hashes" %in% names(file_info))) {
         stop("file not found - probably a collection, go another level deeper.")
     }
@@ -59,6 +69,7 @@ qload <- function(pkg, file) {
 #' Read HDF5 data
 #'
 #' Helper function from [joschkazj](https://github.com/pandas-dev/pandas/issues/9636)
+#' Legacy support only. Modern files are Parquet only.
 #'
 #' @param h5File
 #'

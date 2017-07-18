@@ -6,6 +6,8 @@ Quilt
 
 R package to Quilt data package manager. See: <https://docs.quiltdata.com/>
 
+Extremely experimental - should be considered *totally unusable* right now.
+
 ### Installation
 
 -   `devtools::install_github('stillmatic/quiltr')`
@@ -15,13 +17,29 @@ If you have trouble testing in Rstudio, follow [instructions](https://stackoverf
 
 ### Demo
 
+List installed packages
+
 ``` r
 qls()
 ```
 
     ## /Users/christopherhua/quilt_packages
     ## ├── akarve/examples
+    ## ├── examples/wine
     ## └── uciml/wine
+
+"Peek" at a package, and see what tables are included.
+
+``` r
+qpeek("akarve/examples")
+```
+
+    ## README
+    ## sales
+    ## wine_chemistry
+    ## world100m
+
+Load a file (HDF5 sort of supported right now)
 
 ``` r
 qload("akarve/examples", "sales") %>% head
@@ -69,14 +87,16 @@ qload("akarve/examples", "sales") %>% head
     ## 5     NA
     ## 6     NA
 
+Search for available packages.
+
 ``` r
-qpeek("akarve/examples")
+qsearch("wine")
 ```
 
-    ## README
-    ## sales
-    ## wine_chemistry
-    ## world100m
+    ## akarve/wine
+    ## examples/wine
+    ## uciml/wine
+    ## uciml/wine_quality
 
 Design Philosophy
 -----------------
@@ -92,8 +112,9 @@ Known bugs:
 TODO
 ----
 
--   \[ \] search
+-   \[X\] search
 -   \[ \] permissions/auth
 -   \[ \] download
 -   \[ \] push
--   \[X\] read - table, 'file' finished
+-   \[ \] versioning
+-   \[ \] import and retrieve

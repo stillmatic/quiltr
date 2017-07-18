@@ -13,6 +13,8 @@ library(magrittr)
 
 R package to Quilt data package manager. See: https://docs.quiltdata.com/
 
+Extremely experimental - should be considered *totally unusable* right now.
+
 ### Installation
 
 * `devtools::install_github('stillmatic/quiltr')`
@@ -23,26 +25,29 @@ If you have trouble testing in Rstudio, follow [instructions](https://stackoverf
 
 ### Demo
 
+List installed packages
+
 ```{r}
 qls()
 ```
 
-```{r}
-qload("akarve/examples", "sales") %>% head
-```
+"Peek" at a package, and see what tables are included.
 
 ```{r}
 qpeek("akarve/examples")
 ```
 
+Load a file (HDF5 sort of supported right now)
+
+```{r}
+qload("akarve/examples", "sales") %>% head
+```
+
+Search for available packages.
+
 ```{r}
 qsearch("wine")
 ```
-
-```{r}
-# qload("akarve/examples", "world100m") %>% head
-```
-
 
 ## Design Philosophy
 
