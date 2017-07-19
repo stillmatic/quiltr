@@ -20,4 +20,6 @@ Load file from Quilt
 \examples{
 qload("akarve/examples", "sales") \%>\% head
 qload("akarve/examples", "README")
+qload("examples/wine", "quality")
+qload("examples/wine", "quality/red")
 }

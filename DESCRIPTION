@@ -14,4 +14,6 @@ Depends: magrittr,
     jsonlite,
     stringr,
     sparklyr,
-    rhdf5
+    rhdf5,
+    tidyjson,
+    dplyr

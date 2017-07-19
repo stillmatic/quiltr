@@ -1,3 +1,19 @@
+check_package <- function(pkg, file = NULL) {
+    path <- paste0("~/quilt_packages/", pkg, ".json")
+
+    if(!(file.exists(path))) {
+        stop(sprintf("package '%s' not found in local installation", pkg))
+    }
+
+    package_info <- jsonlite::fromJSON(path)
+
+    nodes <- stringr::str_split(file, "/")
+
+    if(!(file %in% names(package_info$children))) {
+        stop(sprintf("file '%s' not found in package", file))
+    }
+}
+
 #' Load file from Quilt
 #'
 #' @param pkg package name
@@ -12,19 +28,9 @@
 #' qload("examples/wine", "quality")
 #' qload("examples/wine", "quality/red")
 qload <- function(pkg, file) {
+    check_package(pkg, file)
+
     path <- paste0("~/quilt_packages/", pkg, ".json")
-
-    if(!(file.exists(path))) {
-        stop(sprintf("package '%s' not found in local installation", pkg))
-    }
-
-    package_info <- jsonlite::fromJSON(path)
-
-    nodes <- stringr::str_split(file, "/")
-
-    if(!(file %in% names(package_info$children))) {
-        stop(sprintf("file '%s' not found in package", file))
-    }
 
     file_info <- magrittr::extract2(package_info$children, file)
 

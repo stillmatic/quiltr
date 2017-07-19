@@ -4,10 +4,12 @@
 \alias{qpeek}
 \title{Peek at a data file}
 \usage{
-qpeek(str)
+qpeek(str, robust = FALSE)
 }
 \arguments{
 \item{str}{package name}
+
+\item{robust}{more robust data, natively parsed in R}
 }
 \value{
 prints name of files
@@ -17,4 +19,5 @@ Roughly equivalent to typing 'examples' in Python, i.e. the package name.
 }
 \examples{
 qpeek("akarve/examples")
+qpeek("akarve/examples", TRUE)
 }

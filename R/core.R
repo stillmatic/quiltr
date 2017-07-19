@@ -30,16 +30,37 @@ qsearch <- function(str) {
 #' Roughly equivalent to typing 'examples' in Python, i.e. the package name.
 #'
 #' @param str package name
+#' @param robust more robust data, natively parsed in R
 #'
 #' @return prints name of files
 #' @export
 #'
 #' @examples
 #' qpeek("akarve/examples")
-qpeek <- function(str) {
+#' qpeek("akarve/examples", TRUE)
+qpeek <- function(str, robust=FALSE) {
     path <- paste0("~/quilt_packages/", str, ".json")
-    package_info <- jsonlite::fromJSON(path)
-    cat(names(package_info$children), sep = "\n")
+    if(!file.exists(path)) {
+        stop("requested package not installed")
+    }
+    if(robust) {
+        raw_json <- jsonlite::read_json(path)
+
+        final_json <- raw_json %>%
+            extract2("children") %>%
+            toJSON
+
+        df_json <- final_json %>%
+            paste %>%
+            gather_keys() %>%
+            spread_values(
+                hashes = jstring("hashes"),
+                type = jstring("type")
+            )
+    } else {
+        package_info <- jsonlite::fromJSON(path)
+        cat(names(package_info$children), sep = "\n")
+    }
 }
 
 #' helper function for shell output

@@ -14,4 +14,5 @@ data frame
 }
 \description{
 Helper function from \href{https://github.com/pandas-dev/pandas/issues/9636}{joschkazj}
+Legacy support only. Modern files are Parquet only.
 }
