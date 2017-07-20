@@ -1,22 +1,3 @@
-# library(dplyr)
-# library(tidyjson)
-# temp <- tidyjson::read_json("~/quilt_packages/examples/wine.json")
-# temp <- tidyjson::read_json("~/quilt_packages/akarve/examples.json")
-# temp2 <- jsonlite::read_json("~/quilt_packages/akarve/examples.json")
-#
-# temp3 <- temp2 %>%
-#     extract2("children") %>%
-#     toJSON
-#
-# temp3 %>%
-#     paste %>%
-#     gather_keys() %>%
-#     spread_values(
-#         hashes = jstring("hashes"),
-#         type = jstring("type")
-#     ) %>%
-#     filter(key == "sales")
-
 #' Parse JSON specification to find info about a file
 #'
 #' @param pkg
@@ -27,37 +8,44 @@
 #'
 #' @import dplyr magrittr tidyjson
 #' @examples
+#' qparse("examples/wine", "quality/red")
+#' qparse("akarve/seattle_911", "responses")
 qparse <- function(pkg, file) {
     # check_package(pkg, file)
 
     path <- paste0("~/quilt_packages/", pkg, ".json")
-
+    check_file_exists(path) # TODO: assertr?
     raw_json <- jsonlite::read_json(path)
 
+    # strip first layer of 'children'
     final_json <- raw_json %>%
-        extract2("children") %>%
-        toJSON
+        magrittr::extract2("children") %>%
+        toJSON %>%
+        paste
 
+    # split the path
+    nodes <- stringr::str_split(file, "/") %>%
+        extract2(1)
+
+    # traverse to second-lowest level
+    if (length(nodes > 1)) {
+        for (i in nodes[1:length(nodes) - 1]) {
+            final_json <- final_json %>%
+                enter_object(nodes[1]) %>%
+                enter_object("children")
+        }
+    }
+
+    # find the final subtable
+    final_path <- nodes[length(nodes)]
     df_json <- final_json %>%
-        paste %>%
         gather_keys() %>%
         spread_values(
+            format = jstring("format"),
             hashes = jstring("hashes"),
             type = jstring("type")
-        )
-
-    if(file %in% df_json$key) {
-        hash <- df_json %>%
-            filter(key == file) %$%
-            hashes
-        if(is.na(hash)) {
-            stop("must go a layer deeper")
-        } else {
-            return(hash)
-        }
-    } else {
-        stop("file not in package")
-    }
+        ) %>%
+        filter(key == final_path)
+    df_json
 }
-# qparse("examples/wine", "quality")
 

@@ -1,14 +1,19 @@
 #' List installed packages
 #'
+#' @param print print the output to console or not
 #' @return list of installed packages
 #' @export
 #'
 #' @examples
 #' qls()
-qls <- function() {
-    # ret <- system("quilt ls", intern = T)
-    # cat(ret, sep = "\n")
-    cat_sys("quilt ls")
+qls <- function(print=FALSE) {
+    ret <- system("quilt ls", intern = T)
+    if(print) {
+        cat(ret, sep = "\n")
+        invisible(ret)
+    }
+    return(ret)
+    # cat_sys("quilt ls")
 }
 
 
@@ -35,6 +40,8 @@ qsearch <- function(str) {
 #' @return prints name of files
 #' @export
 #'
+#' @import dplyr tidyjson
+#'
 #' @examples
 #' qpeek("akarve/examples")
 #' qpeek("akarve/examples", TRUE)
@@ -56,7 +63,9 @@ qpeek <- function(str, robust=FALSE) {
             spread_values(
                 hashes = jstring("hashes"),
                 type = jstring("type")
-            )
+            ) %>%
+            dplyr::select(-document.id)
+        return(df_json)
     } else {
         package_info <- jsonlite::fromJSON(path)
         cat(names(package_info$children), sep = "\n")

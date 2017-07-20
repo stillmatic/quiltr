@@ -27,49 +27,34 @@ check_package <- function(pkg, file = NULL) {
 #' qload("akarve/examples", "README")
 #' qload("examples/wine", "quality")
 #' qload("examples/wine", "quality/red")
+#' qload("akarve/seattle_911", "responses")
 qload <- function(pkg, file) {
-    check_package(pkg, file)
+    # check_package(pkg, file)
 
-    path <- paste0("~/quilt_packages/", pkg, ".json")
+    info_df <- qparse(pkg, file)
 
-    file_info <- magrittr::extract2(package_info$children, file)
+    type <- stringr::str_extract(info_df$type[[1]], "([A-Z0-9])\\w+")
+    hash <- stringr::str_extract(info_df$hash[[1]], "([A-Z0-9])\\w+")
+    qformat <- stringr::str_extract(info_df$format[[1]], "([A-Z0-9])\\w+")
 
-    if(!("hashes" %in% names(file_info))) {
-        stop("file not found - probably a collection, go another level deeper.")
+    if(qformat == "PARQUET") {
+        sc <- sparklyr::spark_connect(master = "local")
+        df <- sparklyr::spark_read_parquet(sc, file, hash)
+        sq <- SparkR::sparkRSQL.init(sc)
+        df <- SparkR::collect(SparkR::parquetFile(sq, hash))
+        SparkR::sparkR.stop()
+        df
     }
-
-    hash <- package_info$children %>%
-        magrittr::extract2(file) %>%
-        magrittr::extract2("hashes")
-
-    type <- package_info$children %>%
-        magrittr::extract2(file) %>%
-        magrittr::extract2("type")
-
-    if(!(hash %in% dir("~/quilt_packages/objs"))) {
-        stop("file valid but hash missing from disk")
-    }
-
-    hash_path <- paste0("~/quilt_packages/objs/", hash)
 
     if(type == "TABLE") {
-        return(read_hdf5(hash_path))
+        return(read_hdf5(hash))
     }
 
     if(type == "FILE") {
-        cat(hash_path)
-        # cat(readChar(hash_path, file.info(hash_path)$size))
-        return(readr::read_file(hash_path))
+        return(readr::read_file(hash))
     }
 
     stop("Requested file is currently not supported by quiltR")
-
-    # sc <- sparklyr::spark_connect(master = "local")
-    # df <- sparklyr::spark_read_parquet(sc, file, hash_path)
-    # sq <- SparkR::sparkRSQL.init(sc)
-    # df <- SparkR::collect(SparkR::parquetFile(sq, hash_path))
-    # SparkR::sparkR.stop()
-    # df
 }
 
 #' Read HDF5 data
@@ -108,3 +93,6 @@ read_hdf5 <- function(h5File) {
     return(data)
 }
 
+read_parquet <- function() {
+
+}
