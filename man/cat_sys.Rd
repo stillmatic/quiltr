@@ -15,6 +15,3 @@ prints output of some command
 \description{
 helper function for shell output
 }
-\examples{
-cat_sys("ls")
-}

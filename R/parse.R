@@ -1,9 +1,9 @@
 #' Parse JSON specification to find info about a file
 #'
-#' @param pkg
-#' @param file
+#' @param pkg which package the file belongs to
+#' @param file path to the file, see examples
 #'
-#' @return
+#' @return dataframe with info about a particular file
 #' @export
 #'
 #' @import dplyr magrittr tidyjson
@@ -20,7 +20,7 @@ qparse <- function(pkg, file) {
     # strip first layer of 'children'
     final_json <- raw_json %>%
         magrittr::extract2("children") %>%
-        toJSON %>%
+        jsonlite::toJSON %>%
         paste
 
     # split the path

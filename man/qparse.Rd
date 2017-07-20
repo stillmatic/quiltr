@@ -7,8 +7,17 @@
 qparse(pkg, file)
 }
 \arguments{
-\item{file}{}
+\item{pkg}{which package the file belongs to}
+
+\item{file}{path to the file, see examples}
+}
+\value{
+dataframe with info about a particular file
 }
 \description{
 Parse JSON specification to find info about a file
+}
+\examples{
+qparse("examples/wine", "quality/red")
+qparse("akarve/seattle_911", "responses")
 }

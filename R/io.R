@@ -23,7 +23,7 @@ check_package <- function(pkg, file = NULL) {
 #' @export
 #'
 #' @examples
-#' qload("akarve/examples", "sales") %>% head
+#' head(qload("akarve/examples", "sales"))
 #' qload("akarve/examples", "README")
 #' qload("examples/wine", "quality")
 #' qload("examples/wine", "quality/red")

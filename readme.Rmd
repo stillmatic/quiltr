@@ -59,11 +59,12 @@ Known bugs:
 
 * https://github.com/pandas-dev/pandas/pull/9661
 
+
 ## TODO
 
 * [X] search
 * [ ] permissions/auth
 * [ ] download
 * [ ] push
-* [ ] versioning
+* [X] versioning
 * [ ] import and retrieve 

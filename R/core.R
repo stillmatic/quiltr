@@ -27,7 +27,9 @@ qls <- function(print=FALSE) {
 #' @examples
 #' qsearch("akarve")
 qsearch <- function(str) {
-    cat_sys(paste("quilt search", str))
+    ret <- system(paste("quilt search", str), intern = T)
+    ret
+    # cat_sys(paste("quilt search", str))
 }
 
 #' Peek at a data file
@@ -51,18 +53,20 @@ qpeek <- function(str, robust=FALSE) {
         stop("requested package not installed")
     }
     if(robust) {
+        # TODO: integrate with parse
         raw_json <- jsonlite::read_json(path)
 
         final_json <- raw_json %>%
-            extract2("children") %>%
-            toJSON
+            magrittr::extract2("children") %>%
+            jsonlite::toJSON
 
         df_json <- final_json %>%
             paste %>%
-            gather_keys() %>%
-            spread_values(
-                hashes = jstring("hashes"),
-                type = jstring("type")
+            tidyjson::gather_keys() %>%
+            tidyjson::spread_values(
+                format = tidyjson::jstring("format"),
+                hashes = tidyjson::jstring("hashes"),
+                type = tidyjson::jstring("type")
             ) %>%
             dplyr::select(-document.id)
         return(df_json)
@@ -78,8 +82,6 @@ qpeek <- function(str, robust=FALSE) {
 #'
 #' @return prints output of some command
 #'
-#' @examples
-#' cat_sys("ls")
 cat_sys <- function(x) {
     cat(system(x, intern = T), sep = "\n")
 }
