@@ -20,7 +20,7 @@ qparse <- function(pkg, file) {
     # strip first layer of 'children'
     final_json <- raw_json %>%
         magrittr::extract2("children") %>%
-        jsonlite::toJSON %>%
+        jsonlite::toJSON() %>%
         paste
 
     # split the path

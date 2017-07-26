@@ -17,6 +17,7 @@ Imports: magrittr,
     sparklyr,
     rhdf5,
     tidyjson,
-    dplyr
+    dplyr,
+    readr
 Suggests: testthat
 URL: https://github.com/stillmatic/quiltr

@@ -38,12 +38,7 @@ qload <- function(pkg, file) {
     qformat <- stringr::str_extract(info_df$format[[1]], "([A-Z0-9])\\w+")
 
     if(qformat == "PARQUET") {
-        sc <- sparklyr::spark_connect(master = "local")
-        df <- sparklyr::spark_read_parquet(sc, file, hash)
-        sq <- SparkR::sparkRSQL.init(sc)
-        df <- SparkR::collect(SparkR::parquetFile(sq, hash))
-        SparkR::sparkR.stop()
-        df
+        return(read_parquet(paste0("~/quilt_packages/objs/", hash)))
     }
 
     if(type == "TABLE") {
@@ -93,6 +88,26 @@ read_hdf5 <- function(h5File) {
     return(data)
 }
 
-read_parquet <- function() {
-
+#' Read parquet files
+#'
+#' For now, creates a CSV file and reads that instead.
+#'
+#' @param file_path path to file
+#'
+#' @return
+#' @export
+#'
+#' @examples
+read_parquet <- function(file_path) {
+    # cat(file_path)
+    stopifnot(file.exists(file_path))
+    file_path <- path.expand(file_path)
+    csv_path <- paste0(file_path, ".csv")
+    if(!file.exists(csv_path)) {
+        cmd <- paste0("python -c ", "'", 'import pyarrow.parquet as pq; import sys; table = pq.read_table(sys.argv[1]); df = table.to_pandas(); df.to_csv(sys.argv[1] + ".csv")',
+                      "' ", '"', file_path, '"')
+        system(cmd)
+    }
+    return(readr::read_csv(csv_path))
 }
+
