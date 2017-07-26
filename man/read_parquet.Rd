@@ -4,7 +4,7 @@
 \alias{read_parquet}
 \title{Read parquet files}
 \usage{
-read_parquet(file_path)
+read_parquet(file_path, suppress)
 }
 \arguments{
 \item{file_path}{path to file}

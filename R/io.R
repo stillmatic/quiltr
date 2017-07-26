@@ -72,7 +72,7 @@ read_hdf5 <- function(h5File) {
     name_paths <- paste(listing$group[name_nodes], listing$name[name_nodes],
                        sep = "/")
 
-    columns = list()
+    columns <- list()
     for (idx in seq(data_paths)) {
         data <- data.frame(t(rhdf5::h5read(h5File, data_paths[idx])))
         names <- t(rhdf5::h5read(h5File, name_paths[idx]))

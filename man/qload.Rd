@@ -4,7 +4,7 @@
 \alias{qload}
 \title{Load file from Quilt}
 \usage{
-qload(pkg, file)
+qload(pkg, file, ...)
 }
 \arguments{
 \item{pkg}{package name}
