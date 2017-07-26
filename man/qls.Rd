@@ -4,10 +4,7 @@
 \alias{qls}
 \title{List installed packages}
 \usage{
-qls(print = FALSE)
-}
-\arguments{
-\item{print}{print the output to console or not}
+qls()
 }
 \value{
 list of installed packages

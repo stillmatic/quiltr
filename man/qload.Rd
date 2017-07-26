@@ -4,12 +4,16 @@
 \alias{qload}
 \title{Load file from Quilt}
 \usage{
-qload(pkg, file)
+qload(pkg, file, file_type = "feather", package_path = "~/quilt_packages/")
 }
 \arguments{
 \item{pkg}{package name}
 
 \item{file}{file name}
+
+\item{file_type}{flip between feather or csv file as the intermediary betwen parquet and R}
+
+\item{package_path}{allows for user to set package location ("quilt_packages/" would set the location to the working directory)}
 }
 \value{
 dataframe
