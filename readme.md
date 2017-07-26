@@ -23,10 +23,11 @@ List installed packages
 qls()
 ```
 
-    ## /Users/christopherhua/quilt_packages
-    ## ├── akarve/examples
-    ## ├── examples/wine
-    ## └── uciml/wine
+    ## [1] "/Users/christopherhua/quilt_packages"
+    ## [2] "├── akarve/examples"                 
+    ## [3] "├── akarve/seattle_911"              
+    ## [4] "├── examples/wine"                   
+    ## [5] "└── uciml/wine"
 
 "Peek" at a package, and see what tables are included.
 
@@ -39,53 +40,53 @@ qpeek("akarve/examples")
     ## wine_chemistry
     ## world100m
 
-Load a file (HDF5 sort of supported right now)
+Load a file. Rudimentary support for Parquet and for HDF5 formats.
 
 ``` r
-qload("akarve/examples", "sales") %>% head
+qload("akarve/seattle_911", "responses") %>% head
 ```
 
-    ## Warning in H5Dread(h5dataset = h5dataset, h5spaceFile = h5spaceFile,
-    ## h5spaceMem = h5spaceMem, : h5read for type 'VLEN' not yet implemented.
-    ## Values replaced by NA's.
+    ## Warning: Missing column names filled in: 'X1' [1]
 
-    ## Warning in H5Dread(h5dataset = h5dataset, h5spaceFile = h5spaceFile,
-    ## h5spaceMem = h5spaceMem, : h5read for type 'VLEN' not yet implemented.
-    ## Values replaced by NA's.
+    ## Parsed with column specification:
+    ## cols(
+    ##   .default = col_character(),
+    ##   X1 = col_integer(),
+    ##   `CAD CDW ID` = col_integer(),
+    ##   `CAD Event Number` = col_double(),
+    ##   `General Offense Number` = col_integer(),
+    ##   `Event Clearance Code` = col_integer(),
+    ##   `Census Tract` = col_double(),
+    ##   Longitude = col_double(),
+    ##   Latitude = col_double()
+    ## )
 
-    ## Warning in H5Dread(h5dataset = h5dataset, h5spaceFile = h5spaceFile,
-    ## h5spaceMem = h5spaceMem, : NAs produced by integer overflow while
-    ## converting 64-bit integer or unsigned 32-bit integer from HDF5 to a 32-bit
-    ## integer in R. Choose bit64conversion='bit64' or bit64conversion='double' to
-    ## avoid data loss and see the vignette 'rhdf5' for more details about 64-bit
-    ## integers.
+    ## See spec(...) for full column specifications.
 
-    ## Warning in H5Dread(h5dataset = h5dataset, h5spaceFile = h5spaceFile,
-    ## h5spaceMem = h5spaceMem, : h5read for type 'VLEN' not yet implemented.
-    ## Values replaced by NA's.
+    ## Warning in rbind(names(probs), probs_f): number of columns of result is not
+    ## a multiple of vector length (arg 1)
 
-    ## Warning in H5Dread(h5dataset = h5dataset, h5spaceFile = h5spaceFile,
-    ## h5spaceMem = h5spaceMem, : h5read for type 'VLEN' not yet implemented.
-    ## Values replaced by NA's.
+    ## Warning: 2192 parsing failures.
+    ## row # A tibble: 5 x 5 col     row          col expected actual expected   <int>        <chr>    <chr>  <chr> actual 1  1486 Census Tract a double   NULL file 2  3170 Census Tract a double   NULL row 3  3210 Census Tract a double   NULL col 4  3256 Census Tract a double   NULL expected 5  3685 Census Tract a double   NULL actual # ... with 1 more variables: file <chr>
+    ## ... ................. ... .................................... ........ .................................... ...... .................................... .... .................................... ... .................................... ... .................................... ........ .................................... ...... .......................................
+    ## See problems(...) for more details.
 
-    ## Warning in H5Dread(h5dataset = h5dataset, h5spaceFile = h5spaceFile,
-    ## h5spaceMem = h5spaceMem, : h5read for type 'VLEN' not yet implemented.
-    ## Values replaced by NA's.
-
-    ##         NA. NA..1     NA..2  NA..3 NA..4 NA..5 NA..6 NA..7 NA..8 NA..9
-    ## 1   261.540  0.04 -213.2500  38.94 35.00     1     3     6    NA    NA
-    ## 2 10123.020  0.07  457.8100 208.16 68.02    49   293    49    NA    NA
-    ## 3   244.570  0.01   46.7075   8.69  2.99    50   293    27    NA    NA
-    ## 4  4965.759  0.08 1198.9710 195.99  3.99    80   483    30    NA    NA
-    ## 5   394.270  0.08   30.9400  21.78  5.94    85   515    19    NA    NA
-    ## 6   146.690  0.05    4.4300   6.64  4.95    86   515    21    NA    NA
-    ##   NA..10
-    ## 1     NA
-    ## 2     NA
-    ## 3     NA
-    ## 4     NA
-    ## 5     NA
-    ## 6     NA
+    ## # A tibble: 6 x 20
+    ##      X1 `CAD CDW ID` `CAD Event Number` `General Offense Number`
+    ##   <int>        <int>              <dbl>                    <int>
+    ## 1     0        15736        10000246357               2010246357
+    ## 2     1        15737        10000246471               2010246471
+    ## 3     2        15738        10000246255               2010246255
+    ## 4     3        15739        10000246473               2010246473
+    ## 5     4        15740        10000246330               2010246330
+    ## 6     5        15741        10000246477               2010246477
+    ## # ... with 16 more variables: `Event Clearance Code` <int>, `Event
+    ## #   Clearance Description` <chr>, `Event Clearance SubGroup` <chr>, `Event
+    ## #   Clearance Group` <chr>, `Event Clearance Date` <chr>, `Hundred Block
+    ## #   Location` <chr>, `District/Sector` <chr>, `Zone/Beat` <chr>, `Census
+    ## #   Tract` <dbl>, Longitude <dbl>, Latitude <dbl>, `Incident
+    ## #   Location` <chr>, `Initial Type Description` <chr>, `Initial Type
+    ## #   Subgroup` <chr>, `Initial Type Group` <chr>, `At Scene Time` <chr>
 
 Search for available packages.
 
@@ -93,10 +94,8 @@ Search for available packages.
 qsearch("wine")
 ```
 
-    ## akarve/wine
-    ## examples/wine
-    ## uciml/wine
-    ## uciml/wine_quality
+    ## [1] "akarve/wine"        "examples/wine"      "uciml/wine"        
+    ## [4] "uciml/wine_quality"
 
 Design Philosophy
 -----------------
@@ -116,5 +115,5 @@ TODO
 -   \[ \] permissions/auth
 -   \[ \] download
 -   \[ \] push
--   \[ \] versioning
--   \[ \] import and retrieve
+-   \[X\] versioning
+-   \[X\] import and retrieve

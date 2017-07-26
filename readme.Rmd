@@ -37,10 +37,10 @@ qls()
 qpeek("akarve/examples")
 ```
 
-Load a file (HDF5 sort of supported right now)
+Load a file. Rudimentary support for Parquet and for HDF5 formats.
 
 ```{r}
-qload("akarve/examples", "sales") %>% head
+qload("akarve/seattle_911", "responses") %>% head
 ```
 
 Search for available packages.
@@ -67,4 +67,4 @@ Known bugs:
 * [ ] download
 * [ ] push
 * [X] versioning
-* [ ] import and retrieve 
+* [X] import and retrieve 
