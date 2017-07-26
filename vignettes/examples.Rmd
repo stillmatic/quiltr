@@ -1,0 +1,43 @@
+---
+title: "Example usage of quiltr"
+author: "Chris Hua"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(quiltr)
+library(dplyr)
+```
+
+# Demo
+
+List installed packages
+
+```{r}
+qls()
+```
+
+"Peek" at a package, and see what tables are included.
+
+```{r}
+qpeek("akarve/examples")
+```
+
+Load a file. Rudimentary support for Parquet and for HDF5 formats.
+
+```{r}
+seattle <- qload("akarve/seattle_911", "responses", suppress=TRUE)
+seattle %>% head %>% knitr::kable()
+```
+
+Search for available packages.
+
+```{r}
+qsearch("wine")
+```

@@ -19,5 +19,8 @@ Imports: magrittr,
     tidyjson,
     dplyr,
     readr
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
 URL: https://github.com/stillmatic/quiltr
+VignetteBuilder: knitr

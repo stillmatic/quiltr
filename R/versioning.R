@@ -8,7 +8,7 @@
 #' @examples
 #' qlog("akarve/examples")
 qlog <- function(str) {
-    cat_sys(paste0("quilt log ", str))
+    system(paste0("quilt log ", str))
 }
 
 #' See versions of a package
@@ -21,6 +21,5 @@ qlog <- function(str) {
 #' @examples
 #' qversion("akarve/examples")
 qversion <- function(str) {
-    cat_sys(paste0("quilt version list ", str))
+    system(paste0("quilt version list ", str))
 }
-

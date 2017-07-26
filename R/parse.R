@@ -11,8 +11,6 @@
 #' qparse("examples/wine", "quality/red")
 #' qparse("akarve/seattle_911", "responses")
 qparse <- function(pkg, file) {
-    # check_package(pkg, file)
-
     path <- paste0("~/quilt_packages/", pkg, ".json")
     check_file_exists(path) # TODO: assertr?
     raw_json <- jsonlite::read_json(path)
@@ -48,4 +46,3 @@ qparse <- function(pkg, file) {
         filter(key == final_path)
     df_json
 }
-

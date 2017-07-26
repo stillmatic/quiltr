@@ -1,19 +1,13 @@
 #' List installed packages
 #'
-#' @param print print the output to console or not
 #' @return list of installed packages
 #' @export
 #'
 #' @examples
 #' qls()
-qls <- function(print=FALSE) {
+qls <- function() {
     ret <- system("quilt ls", intern = T)
-    if(print) {
-        cat(ret, sep = "\n")
-        invisible(ret)
-    }
     return(ret)
-    # cat_sys("quilt ls")
 }
 
 
@@ -28,8 +22,7 @@ qls <- function(print=FALSE) {
 #' qsearch("akarve")
 qsearch <- function(str) {
     ret <- system(paste("quilt search", str), intern = T)
-    ret
-    # cat_sys(paste("quilt search", str))
+    return(ret)
 }
 
 #' Peek at a data file
@@ -49,10 +42,11 @@ qsearch <- function(str) {
 #' qpeek("akarve/examples", TRUE)
 qpeek <- function(str, robust=FALSE) {
     path <- paste0("~/quilt_packages/", str, ".json")
-    if(!file.exists(path)) {
+    path <- path.expand(path)
+    if (!file.exists(path)) {
         stop("requested package not installed")
     }
-    if(robust) {
+    if (robust) {
         # TODO: integrate with parse
         raw_json <- jsonlite::read_json(path)
 

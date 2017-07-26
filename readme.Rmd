@@ -13,7 +13,7 @@ library(magrittr)
 
 R package to Quilt data package manager. See: https://docs.quiltdata.com/
 
-Extremely experimental - should be considered *totally unusable* right now.
+Extremely experimental - should be considered *totally unusable* right now. This package currently has a hard requirement on Python and access to shell commands.
 
 ### Installation
 
@@ -21,32 +21,16 @@ Extremely experimental - should be considered *totally unusable* right now.
 * `pip install quilt`
 <!-- * `devtools::install_github('apache/spark', ref='master', subdir='R/pkg')` -->
 
-If you have trouble testing in Rstudio, follow [instructions](https://stackoverflow.com/questions/31121645/rstudio-shows-a-different-path-variable).
+If you have trouble testing in Rstudio, follow [instructions](https://stackoverflow.com/questions/31121645/rstudio-shows-a-different-path-variable) to set the proper PATH for Rstudio.
 
 ### Demo
 
-List installed packages
-
-```{r}
-qls()
+```{r, echo=TRUE, results='hide', messages=FALSE, warnings=FALSE}
+seattle <- qload("akarve/seattle_911", "responses", suppress=TRUE)
 ```
 
-"Peek" at a package, and see what tables are included.
-
-```{r}
-qpeek("akarve/examples")
-```
-
-Load a file. Rudimentary support for Parquet and for HDF5 formats.
-
-```{r}
-qload("akarve/seattle_911", "responses") %>% head
-```
-
-Search for available packages.
-
-```{r}
-qsearch("wine")
+```{r, error=FALSE}
+seattle %>% head %>% knitr::kable()
 ```
 
 ## Design Philosophy
