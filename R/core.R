@@ -71,6 +71,33 @@ qpeek <- function(str, robust=FALSE, package_path = "~/quilt_packages/") {
     }
 }
 
+#' Install a Quilt package
+#'
+#' @param pkg user/package name to install
+#' @param hash optional
+#' @param version optional
+#' @param tag optional
+#'
+#' @return nothing, installs specified file
+#' @export
+#'
+#' @examples
+#' \dontrun{qinstall('akarve/examples')}
+qinstall <- function(pkg, hash = NULL, version = NULL, tag = NULL) {
+    cmd <- sprintf("quilt install %s", pkg)
+    if(!is.null(hash)) {
+        cmd <- paste(cmd, "-x", hash)
+    }
+    if(!is.null(version)) {
+        cmd <- paste(cmd, "-v", version)
+    }
+    if(!is.null(tag)) {
+        cmd <- paste(cmd, "-t", tag)
+    }
+    ret <- system(cmd, intern = T)
+    return(ret)
+}
+
 #' helper function for shell output
 #'
 #' @param x command to run
