@@ -30,6 +30,7 @@ qsearch <- function(str) {
 #'
 #' @param str package name
 #' @param robust more robust data, natively parsed in R
+#' @param package_path allows for user to set package location ("quilt_packages/" would set the location to the working directory)
 #'
 #' @return prints name of files
 #' @export
@@ -39,8 +40,8 @@ qsearch <- function(str) {
 #' @examples
 #' qpeek("akarve/examples")
 #' qpeek("akarve/examples", TRUE)
-qpeek <- function(str, robust=FALSE) {
-    path <- paste0("~/quilt_packages/", str, ".json")
+qpeek <- function(str, robust=FALSE, package_path = "~/quilt_packages/") {
+    path <- paste0(package_path, str, ".json")
     path <- path.expand(path)
     if (!file.exists(path)) {
         stop("requested package not installed")
@@ -83,13 +84,13 @@ qpeek <- function(str, robust=FALSE) {
 #' \dontrun{qinstall('akarve/examples')}
 qinstall <- function(pkg, hash = NULL, version = NULL, tag = NULL) {
     cmd <- sprintf("quilt install %s", pkg)
-    if(!is.null(hash)) {
+    if (!is.null(hash)) {
         cmd <- paste(cmd, "-x", hash)
     }
-    if(!is.null(version)) {
+    if (!is.null(version)) {
         cmd <- paste(cmd, "-v", version)
     }
-    if(!is.null(tag)) {
+    if (!is.null(tag)) {
         cmd <- paste(cmd, "-t", tag)
     }
     ret <- system(cmd, intern = T)

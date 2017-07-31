@@ -1,5 +1,7 @@
-check_package <- function(pkg, file = NULL) {
-    path <- paste0("~/quilt_packages/", pkg, ".json")
+
+
+check_package <- function(pkg, file = NULL, package_path = "~/quilt_packages/") {
+    path <- paste0(package_path, pkg, ".json")
 
     if (!(file.exists(path))) {
         stop(sprintf("package '%s' not found in local installation", pkg))
@@ -16,6 +18,8 @@ check_package <- function(pkg, file = NULL) {
 #'
 #' @param pkg package name
 #' @param file file name
+#' @param file_type flip between feather or csv file as the intermediary betwen parquet and R
+#' @param package_path allows for user to set package location ("quilt_packages/" would set the location to the working directory)
 #'
 #' @return dataframe
 #' @export
@@ -25,7 +29,7 @@ check_package <- function(pkg, file = NULL) {
 #' qload("examples/wine", "quality")
 #' qload("examples/wine", "quality/red")
 #' qload("akarve/seattle_911", "responses")
-qload <- function(pkg, file, ...) {
+qload <- function(pkg, file, file_type = "feather", package_path = "~/quilt_packages/") {
     info_df <- qparse(pkg, file)
 
     type <- stringr::str_extract(info_df$type[[1]], "([A-Z0-9])\\w+")
@@ -33,11 +37,11 @@ qload <- function(pkg, file, ...) {
     qformat <- stringr::str_extract(info_df$format[[1]], "([A-Z0-9])\\w+")
 
     if (qformat == "PARQUET") {
-        return(read_parquet(paste0("~/quilt_packages/objs/", hash), ...))
+        return(read_parquet(paste0(paste0(package_path, "objs/"), hash), file_type))
     }
 
     if (type == "TABLE") {
-        return(read_hdf5(hash, ...))
+        return(read_hdf5(hash))
     }
 
     if (type == "FILE") {
@@ -90,27 +94,50 @@ read_hdf5 <- function(h5File) {
 #' For now, creates a CSV file and reads that instead.
 #'
 #' @param file_path path to file
+#' @param file_type flip between feather or csv file as the intermediary betwen parquet and R
+#' @param suppress if TRUE supresses warnings associated with loading csv and feather format files
 #'
 #' @return
 #' @export
 #'
 #' @examples
-read_parquet <- function(file_path, suppress) {
+read_parquet <- function(file_path, file_type = "feather", suppress = TRUE) {
+    if ((file_type != "feather") & (file_type != "csv")) {
+        stop('file_type must be set to either "feather" or "csv".')
+    }
     stopifnot(file.exists(file_path))
     file_path <- path.expand(file_path)
-    csv_path <- paste0(file_path, ".csv")
-    if (!file.exists(csv_path)) {
-        cmd <- paste0("python -c ", "'", 'import pyarrow.parquet as pq; import sys; table = pq.read_table(sys.argv[1]); df = table.to_pandas(); df.to_csv(sys.argv[1] + ".csv", index=False, index_label=False)',
-                      "' ", '"', file_path, '"')
-        system(cmd)
+    if (file_type == "feather") {
+        feather_path <- paste0(file_path, ".feather")
+        if (!file.exists(feather_path)) {
+            cmd <- paste0("python -c ", "'", 'import pyarrow.parquet as pq; import sys; import feather; table = pq.read_table(sys.argv[1]); df = table.to_pandas(); feather.write_dataframe(df, sys.argv[1] + ".feather")',
+                          "' ", '"', file_path, '"')
+            system(cmd)
+        }
+        if (suppress) {
+            oldw <- getOption("warn")
+            options(warn = -1)
+            df <- feather::read_feather(feather_path)
+            options(warn = oldw)
+        } else {
+            df <- feather::read_feather(feather_path)
+        }
+    } else if (file_type == "csv") {
+        csv_path <- paste0(file_path, ".csv")
+        if (!file.exists(csv_path)) {
+            cmd <- paste0("python -c ", "'", 'import pyarrow.parquet as pq; import sys; table = pq.read_table(sys.argv[1]); df = table.to_pandas(); df.to_csv(sys.argv[1] + ".csv", index=False, index_label=False)',
+                          "' ", '"', file_path, '"')
+            system(cmd)
+        }
+        if (suppress) {
+            oldw <- getOption("warn")
+            options(warn = -1)
+            df <- readr::read_csv(csv_path, progress = FALSE)
+            options(warn = oldw)
+        } else {
+            df <- readr::read_csv(csv_path, progress = FALSE)
+        }
     }
-    if (suppress) {
-        oldw <- getOption("warn")
-        options(warn = -1)
-        df <- readr::read_csv(csv_path, progress = FALSE)
-        options(warn = oldw)
-    } else {
-        df <- readr::read_csv(csv_path, progress = FALSE)
-    }
+
     return(df)
 }
