@@ -9,6 +9,9 @@ qlog(str)
 \arguments{
 \item{str}{USER/PACKAGE}
 }
+\value{
+push history of the package
+}
 \description{
 Push history
 }

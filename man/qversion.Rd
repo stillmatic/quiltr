@@ -7,7 +7,10 @@
 qversion(str)
 }
 \arguments{
-\item{str}{}
+\item{str}{USER/PACKAGE}
+}
+\value{
+versions of the package
 }
 \description{
 See versions of a package

@@ -2,7 +2,7 @@
 #'
 #' @param str USER/PACKAGE
 #'
-#' @return
+#' @return push history of the package
 #' @export
 #'
 #' @examples
@@ -13,9 +13,9 @@ qlog <- function(str) {
 
 #' See versions of a package
 #'
-#' @param str
+#' @param str USER/PACKAGE
 #'
-#' @return
+#' @return versions of the package
 #' @export
 #'
 #' @examples

@@ -10,7 +10,6 @@ qls <- function() {
     return(ret)
 }
 
-
 #' Search for packages by user or package name
 #'
 #' @param str user or package name

@@ -18,7 +18,8 @@ Imports: magrittr,
     rhdf5,
     tidyjson,
     dplyr,
-    readr
+    readr,
+    feather
 Suggests: testthat,
     knitr,
     rmarkdown
