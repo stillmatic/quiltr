@@ -2,6 +2,7 @@
 #'
 #' @param pkg which package the file belongs to
 #' @param file path to the file, see examples
+#' @param package_path allows for user to set package location ("quilt_packages/" would set the location to the working directory)
 #'
 #' @return dataframe with info about a particular file
 #' @export
@@ -10,8 +11,8 @@
 #' @examples
 #' qparse("examples/wine", "quality/red")
 #' qparse("akarve/seattle_911", "responses")
-qparse <- function(pkg, file) {
-    path <- paste0("~/quilt_packages/", pkg, ".json")
+qparse <- function(pkg, file, package_path = "~/quilt_packages/") {
+    path <- paste0(package_path, pkg, ".json")
     check_file_exists(path) # TODO: assertr?
     raw_json <- jsonlite::read_json(path)
 

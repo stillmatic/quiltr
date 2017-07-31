@@ -4,10 +4,14 @@
 \alias{read_parquet}
 \title{Read parquet files}
 \usage{
-read_parquet(file_path, suppress)
+read_parquet(file_path, file_type = "feather", suppress = TRUE)
 }
 \arguments{
 \item{file_path}{path to file}
+
+\item{file_type}{flip between feather or csv file as the intermediary betwen parquet and R}
+
+\item{suppress}{if TRUE supresses warnings associated with loading csv and feather format files}
 }
 \description{
 For now, creates a CSV file and reads that instead.
