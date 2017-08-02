@@ -4,14 +4,12 @@
 \alias{qparse}
 \title{Parse JSON specification to find info about a file}
 \usage{
-qparse(pkg, file, package_path = "~/quilt_packages/")
+qparse(pkg_name, file)
 }
 \arguments{
-\item{pkg}{which package the file belongs to}
+\item{pkg_name}{which package the file belongs to}
 
 \item{file}{path to the file, see examples}
-
-\item{package_path}{allows for user to set package location ("quilt_packages/" would set the location to the working directory)}
 }
 \value{
 dataframe with info about a particular file
