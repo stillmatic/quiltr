@@ -24,5 +24,8 @@ qload <- function(pkg, file) {
     file <- stringr::str_replace_all(file, "\\.", "$")
 
     df <- eval(parse(text = paste0("data$", file, "()")))
-    df
+    tmp <- tempfile(pattern = "quilt", fileext = "feather")
+    pyfeather <- reticulate::import(module = "feather")
+    pyfeather$write_dataframe(df$copy(), tmp)
+    feather::read_feather(tmp)
 }
