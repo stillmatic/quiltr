@@ -9,17 +9,17 @@ library(quiltr)
 library(magrittr)
 ```
 
-## Quilt
+## Quiltr
 
-R package to Quilt data package manager. See: https://docs.quiltdata.com/
+An R package to Quilt data package manager. See [docs](https://docs.quiltdata.com/) and [GitHub](https://github.com/quiltdata/quilt)
 
-Extremely experimental - should be considered *totally unusable* right now. This package currently has a hard requirement on Python and access to shell commands.
+Extremely experimental - should be considered *mostly unusable* right now. This package currently has a hard dependency on Python.
 
 ### Installation
 
 * `devtools::install_github('stillmatic/quiltr')`
 * `pip install quilt`
-<!-- * `devtools::install_github('apache/spark', ref='master', subdir='R/pkg')` -->
+* `pip install git+git://github.com/quiltdata/quilt` - you probably need this
 
 If you have trouble testing in Rstudio, follow [instructions](https://stackoverflow.com/questions/31121645/rstudio-shows-a-different-path-variable) to set the proper PATH for Rstudio.
 
@@ -35,20 +35,17 @@ seattle %>% head %>% knitr::kable()
 
 ## Design Philosophy
 
-Given that the bulk of development on the Quilt project is done in Python, it makes sense to provide wrappers to the Python code for non-essential commands, and provide native R code to handle import/export of data only.
+Given that the bulk of development on the Quilt project is done in Python, it makes sense to provide wrappers to the Python code for non-essential commands, and provide native R code to handle import/export of data only. Additionally, the Quilt project is under heavy development; rather than reimplementing this moving target in R, we can use 
 
 Many of the commands named by Quilt conflict with existing R functions, especially in `base`, e.g. `search` or `ls`. To avoid confusion we generally will prefix functions with `q`. 
 
-Known bugs:
-
-* https://github.com/pandas-dev/pandas/pull/9661
-
+This package makes extensive use of the R package `reticulate` to interface with Python. The file IO and conversion is done via the `feather` project, in lieu of R support for Apache Arrow (see, e.g. [ARROW-1325](https://issues.apache.org/jira/browse/ARROW-1325) and other stuff on the arrow-dev listserv).
 
 ## TODO
 
 * [X] search
-* [ ] permissions/auth
-* [ ] download
-* [ ] push
+* [X] permissions/auth
+* [X] download
+* [ ] push/build
 * [X] versioning
 * [X] import and retrieve 

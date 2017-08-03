@@ -6,7 +6,8 @@ Authors@R: c(
     person("Chris", "Hua", email = "hua.christopher@gmail.com", role = c("aut", "cre"))
     )
 Description: R package to work with https://github.com/quiltdata/quilt.
-    Work in progress, still needs an R Arrow interface.
+    Provides methods to download, work with, and upload data from the Quilt 
+    platform.
 License: Apache License 2.0
 Encoding: UTF-8
 LazyData: true
@@ -14,11 +15,8 @@ RoxygenNote: 6.0.1
 Imports: magrittr,
     jsonlite,
     stringr,
-    sparklyr,
-    rhdf5,
     tidyjson,
     dplyr,
-    readr,
     feather
 Suggests: testthat,
     knitr,
