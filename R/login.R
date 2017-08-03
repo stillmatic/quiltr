@@ -1,7 +1,11 @@
 #' Login to Quilt (web interface)
 #'
+#' This function helps you get a OAuth Token from your Quilt installation and
+#' then stores it, along with some other data, in a `auth.json` file.
+#'
 #' @param quilt_url change if you have a separate Quilt package manager installation
 #'
+#' @md
 #' @return save auth and logs in
 #' @export
 #'
@@ -13,13 +17,17 @@ qlogin <- function(quilt_url = 'https://pkg.quiltdata.com') {
     login_url <- sprintf("%s/login", quilt_url)
     browseURL(login_url)
     refresh_token <- readline("Enter the code from the page: ")
-    # hacky stuff follows - names shouldn't start with underscores in R
-    auth <- eval(parse(
-        text = paste("quilt$tools$command$_update_auth(refresh_token)")))
-    eval(parse(
-        text = paste("quilt$tools$command$_save_auth(auth)")
-    ))
-    eval(parse(
-        text = paste("quilt$tools$command$_clear_session()")
-    ))
+    quilt$login_with_token(refresh_token)
+}
+
+#' Log out of Quilt
+#'
+#' @return Deletes your saved auth info
+#' @export
+#'
+#' @examples
+#' \dontrun{qlogout()}
+qlogout <- function() {
+    quilt <- reticulate::import("quilt")
+    quilt$logout()
 }
