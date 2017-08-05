@@ -26,3 +26,4 @@ vignettes/*.pdf
 .Rproj.user
 *.log
 inst/doc
+quilt_packages

@@ -13,7 +13,8 @@ qlogin(quilt_url = "https://pkg.quiltdata.com")
 save auth and logs in
 }
 \description{
-Login to Quilt (web interface)
+This function helps you get a OAuth Token from your Quilt installation and
+then stores it, along with some other data, in a \code{auth.json} file.
 }
 \examples{
 \dontrun{qlogin()}

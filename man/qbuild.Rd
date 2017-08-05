@@ -2,19 +2,22 @@
 % Please edit documentation in R/build.R
 \name{qbuild}
 \alias{qbuild}
-\title{Build}
+\title{Build a package}
 \usage{
-qbuild(pkg, x)
+qbuild(pkg, ...)
 }
 \arguments{
 \item{pkg}{package to build}
 
 \item{x}{data to build}
 }
+\value{
+builds the package
+}
 \description{
-Build
+Build a package
 }
 \examples{
 data(iris)
-qbuild("hua/iris", iris)
+qbuild("hua/iris", iris = iris)
 }

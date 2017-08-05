@@ -4,14 +4,21 @@
 \alias{qpush}
 \title{Push package from local to remote}
 \usage{
-qpush(pkg)
+qpush(pkg, public = FALSE, reupload = FALSE)
 }
 \arguments{
 \item{pkg}{package to push}
+
+\item{public}{if the package is public or not}
+
+\item{reupload}{}
 }
 \value{
 pushes package
 }
 \description{
 Push package from local to remote
+}
+\examples{
+qpush("hua/test", TRUE)
 }
