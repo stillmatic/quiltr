@@ -4,14 +4,12 @@
 \alias{qpeek}
 \title{Peek at a data file}
 \usage{
-qpeek(str, robust = FALSE, package_path = "~/quilt_packages/")
+qpeek(pkg, robust = FALSE)
 }
 \arguments{
-\item{str}{package name}
+\item{pkg}{package name}
 
 \item{robust}{more robust data, natively parsed in R}
-
-\item{package_path}{allows for user to set package location ("quilt_packages/" would set the location to the working directory)}
 }
 \value{
 prints name of files

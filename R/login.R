@@ -22,7 +22,7 @@ qlogin <- function(quilt_url = 'https://pkg.quiltdata.com') {
 
 #' Log out of Quilt
 #'
-#' @return Deletes your saved auth info
+#' @return Deletes your saved auth token
 #' @export
 #'
 #' @examples

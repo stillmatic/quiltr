@@ -13,7 +13,7 @@ library(magrittr)
 
 An R package to Quilt data package manager. See [docs](https://docs.quiltdata.com/) and [GitHub](https://github.com/quiltdata/quilt)
 
-Extremely experimental - should be considered *mostly unusable* right now. This package currently has a hard dependency on Python.
+This package is in reasonable shape and covers most of the Quilt Python API. Pull requests, issue reports, and further testing are very welcome.
 
 ### Installation
 
@@ -25,12 +25,65 @@ If you have trouble testing in Rstudio, follow [instructions](https://stackoverf
 
 ### Demo
 
+Load data file:
+
 ```{r, echo=TRUE}
 seattle <- qload("akarve.seattle_911", "responses")
 ```
 
 ```{r, error=FALSE}
 seattle %>% head %>% knitr::kable()
+```
+
+Create a package:
+
+```{r, echo=FALSE}
+readme <- "# Iris Test
+
+## Est nomine aeternum signata pendebat Iuppiter amamus
+
+Lorem markdownum tractu faciles, in haesit parte **tot** immaduisse solis
+petiitque; tinguamus! Ista comitatur vobis videat simul ima mille ictu infelix
+variarum.
+
+- Pars levat lacerare sinuatus nec vomens gravitate
+- Haliumque stabat vultum intravit nam deum
+- Proles suo ignibus vidit
+- Referre ferrugine laesi ait nymphae matrem loquendo
+- Oscula eo pariter
+
+## Primo contendite ramos evocat cervum tulit medicamine
+
+Serpentis meliore tela est: Harpyia albentia. Est odio heros: ordine a Lacinia
+fulvo Sisyphon Oeclides ac conatur senserit has. Telas unus siccis pio parere
+vitiaverat duc mea Circes primos cruoris Mareoticaque dedit sua nulla coniunx.
+
+## Graves sol deprensi simul
+
+Haec hoc neve ferunt, verba lacrimis penetrabit illic praecipitata. Sustinet dum
+nunc procorum herbae terrasque in soporem callidus aethera rotatum **credensque
+habet**. Mersitque novitate et populi. Morte da flamma **vetus tuae** velamenta
+collige florebat festas.
+
+## Per esse dixit
+
+Imperat nubibus fugiant Maeonia. Ait Nec super gerebam si occidit Priami videor;
+non tactu secutae! Simulacraque silvas Cycnum, Orithyian turba, vetaris.
+
+Maior tenet nihil negetur, poena Spartana ardor, prementem primum patremque *ut*
+hasta flava, ebur frontem atra, est. Vobis sua, voto, ubi, e rigido. [Cum
+cui](http://www.de-oraque.net/coma.aspx): pugna.
+
+Obscenae quas templa aequora consuetissima motis clamant. Sortes solum
+praecordiaque rupit accommodat relicta. Et quod [praemia sidera
+colebat](http://nam-satis.org/) etiamnum."
+
+data(iris)
+```
+
+```{r, eval = F}
+qbuild("hua/iris", README.md = readme, iris = iris)
+qpush("hua/iris", TRUE)
 ```
 
 ## Design Philosophy
@@ -40,12 +93,3 @@ Given that the bulk of development on the Quilt project is done in Python, it ma
 Many of the commands named by Quilt conflict with existing R functions, especially in `base`, e.g. `search` or `ls`. To avoid confusion we generally will prefix functions with `q`. 
 
 This package makes extensive use of the R package `reticulate` to interface with Python. The file IO and conversion is done via the `feather` project, in lieu of R support for Apache Arrow (see, e.g. [ARROW-1325](https://issues.apache.org/jira/browse/ARROW-1325) and other stuff on the arrow-dev listserv).
-
-## TODO
-
-* [X] search
-* [X] permissions/auth
-* [X] download
-* [ ] push/build
-* [X] versioning
-* [X] import and retrieve 

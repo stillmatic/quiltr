@@ -6,16 +6,19 @@ Quiltr
 
 An R package to Quilt data package manager. See [docs](https://docs.quiltdata.com/) and [GitHub](https://github.com/quiltdata/quilt)
 
-Extremely experimental - should be considered *mostly unusable* right now. This package currently has a hard dependency on Python.
+This package is in reasonable shape and covers most of the Quilt Python API. Pull requests, issue reports, and further testing are very welcome.
 
 ### Installation
 
 -   `devtools::install_github('stillmatic/quiltr')`
 -   `pip install quilt`
+-   `pip install git+git://github.com/quiltdata/quilt` - you probably need this
 
 If you have trouble testing in Rstudio, follow [instructions](https://stackoverflow.com/questions/31121645/rstudio-shows-a-different-path-variable) to set the proper PATH for Rstudio.
 
 ### Demo
+
+Load data file:
 
 ``` r
 seattle <- qload("akarve.seattle_911", "responses")
@@ -38,6 +41,13 @@ seattle %>% head %>% knitr::kable()
 | 15740      |       10000246330|              2010246330| 250                  | MISCHIEF, NUISANCE COMPLAINTS | NUISANCE, MISCHIEF COMPLAINTS | NUISANCE, MISCHIEF       | 07/17/2010 09:00:00 PM | 9XX BLOCK OF ALOHA ST             | D               | D1        | 6700.1009    | -122.339708605      | 47.627424837      | (47.627424837, -122.339708605) |                          |                       |                    |               |
 | 15741      |       10000246477|              2010246477| 281                  | SUSPICIOUS VEHICLE            | SUSPICIOUS CIRCUMSTANCES      | SUSPICIOUS CIRCUMSTANCES | 07/17/2010 09:02:00 PM | 30XX BLOCK OF W GOVERNMENT WAY    | Q               | Q1        | 5700.2005    | -122.39662681       | 47.66131158       | (47.66131158, -122.39662681)   |                          |                       |                    |               |
 
+Create a package:
+
+``` r
+qbuild("hua/iris", README.md = readme, iris = iris)
+qpush("hua/iris", TRUE)
+```
+
 Design Philosophy
 -----------------
 
@@ -46,13 +56,3 @@ Given that the bulk of development on the Quilt project is done in Python, it ma
 Many of the commands named by Quilt conflict with existing R functions, especially in `base`, e.g. `search` or `ls`. To avoid confusion we generally will prefix functions with `q`.
 
 This package makes extensive use of the R package `reticulate` to interface with Python. The file IO and conversion is done via the `feather` project, in lieu of R support for Apache Arrow (see, e.g. [ARROW-1325](https://issues.apache.org/jira/browse/ARROW-1325) and other stuff on the arrow-dev listserv).
-
-TODO
-----
-
--   \[X\] search
--   \[X\] permissions/auth
--   \[X\] download
--   \[ \] push/build
--   \[X\] versioning
--   \[X\] import and retrieve

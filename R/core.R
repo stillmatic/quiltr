@@ -28,9 +28,8 @@ qsearch <- function(str) {
 #'
 #' Roughly equivalent to typing 'examples' in Python, i.e. the package name.
 #'
-#' @param str package name
+#' @param pkg package name
 #' @param robust more robust data, natively parsed in R
-#' @param package_path allows for user to set package location ("quilt_packages/" would set the location to the working directory)
 #'
 #' @return prints name of files
 #' @export
@@ -40,12 +39,15 @@ qsearch <- function(str) {
 #' @examples
 #' qpeek("akarve/examples")
 #' qpeek("akarve/examples", TRUE)
-qpeek <- function(str, robust=FALSE, package_path = "~/quilt_packages/") {
-    path <- paste0(package_path, str, ".json")
-    path <- path.expand(path)
-    if (!file.exists(path)) {
-        stop("requested package not installed")
+qpeek <- function(pkg, robust=FALSE) {
+    pkg_split <- stringr::str_split(pkg, "/")[[1]]
+    store <- reticulate::import("quilt.tools.store")
+    pkg_obj <- store$PackageStore$find_package(pkg_split[1], pkg_split[2])
+    if(is.null(pkg_obj)) {
+        stop("Package not installed")
     }
+    path <- pkg_obj$get_path()
+
     if (robust) {
         # TODO: integrate with parse
         raw_json <- jsonlite::read_json(path)
@@ -97,12 +99,4 @@ qinstall <- function(pkg, hash = NULL, version = NULL, tag = NULL) {
     return(ret)
 }
 
-#' helper function for shell output
-#'
-#' @param x command to run
-#'
-#' @return prints output of some command
-#'
-cat_sys <- function(x) {
-    cat(system(x, intern = T), sep = "\n")
-}
+

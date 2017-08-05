@@ -23,21 +23,84 @@ List installed packages
 qls()
 ```
 
+Search for available packages.
+
+```{r}
+qsearch("wine")
+```
+
+Log in and out.
+
+```{r, eval = FALSE}
+qlogin()
+qlogout()
+```
+
+# Working with data
+
 "Peek" at a package, and see what tables are included.
 
 ```{r}
 qpeek("akarve/examples")
 ```
 
-Load a file. Rudimentary support for Parquet and for HDF5 formats.
+Load a file. 
 
 ```{r}
-seattle <- qload("akarve/seattle_911", "responses", suppress=TRUE)
+seattle <- qload("akarve.seattle_911", "responses")
 seattle %>% head %>% knitr::kable()
 ```
 
-Search for available packages.
+# Working with packages
 
-```{r}
-qsearch("wine")
+Create a package:
+
+```{r, echo=FALSE}
+readme <- "# Iris Test
+
+## Est nomine aeternum signata pendebat Iuppiter amamus
+
+Lorem markdownum tractu faciles, in haesit parte **tot** immaduisse solis
+petiitque; tinguamus! Ista comitatur vobis videat simul ima mille ictu infelix
+variarum.
+
+- Pars levat lacerare sinuatus nec vomens gravitate
+- Haliumque stabat vultum intravit nam deum
+- Proles suo ignibus vidit
+- Referre ferrugine laesi ait nymphae matrem loquendo
+- Oscula eo pariter
+
+## Primo contendite ramos evocat cervum tulit medicamine
+
+Serpentis meliore tela est: Harpyia albentia. Est odio heros: ordine a Lacinia
+fulvo Sisyphon Oeclides ac conatur senserit has. Telas unus siccis pio parere
+vitiaverat duc mea Circes primos cruoris Mareoticaque dedit sua nulla coniunx.
+
+## Graves sol deprensi simul
+
+Haec hoc neve ferunt, verba lacrimis penetrabit illic praecipitata. Sustinet dum
+nunc procorum herbae terrasque in soporem callidus aethera rotatum **credensque
+habet**. Mersitque novitate et populi. Morte da flamma **vetus tuae** velamenta
+collige florebat festas.
+
+## Per esse dixit
+
+Imperat nubibus fugiant Maeonia. Ait Nec super gerebam si occidit Priami videor;
+non tactu secutae! Simulacraque silvas Cycnum, Orithyian turba, vetaris.
+
+Maior tenet nihil negetur, poena Spartana ardor, prementem primum patremque *ut*
+hasta flava, ebur frontem atra, est. Vobis sua, voto, ubi, e rigido. [Cum
+cui](http://www.de-oraque.net/coma.aspx): pugna.
+
+Obscenae quas templa aequora consuetissima motis clamant. Sortes solum
+praecordiaque rupit accommodat relicta. Et quod [praemia sidera
+colebat](http://nam-satis.org/) etiamnum."
+
+data(iris)
 ```
+
+```{r, eval = F}
+qbuild("hua/iris", README.md = readme, iris = iris)
+qpush("hua/iris", TRUE)
+```
+

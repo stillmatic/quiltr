@@ -7,7 +7,7 @@
 qlogout()
 }
 \value{
-Deletes your saved auth info
+Deletes your saved auth token
 }
 \description{
 Log out of Quilt
