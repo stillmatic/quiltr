@@ -47,7 +47,7 @@ qpeek("akarve/examples")
 Load a file. 
 
 ```{r}
-seattle <- qload("akarve.seattle_911", "responses")
+seattle <- qload("akarve/seattle_911", "responses")
 seattle %>% head %>% knitr::kable()
 ```
 

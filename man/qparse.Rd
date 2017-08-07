@@ -18,6 +18,6 @@ dataframe with info about a particular file
 Parse JSON specification to find info about a file
 }
 \examples{
-qparse("examples.wine", "quality.red")
-qparse("akarve.seattle_911", "responses")
+qparse("examples/wine", "quality/red")
+qparse("akarve/seattle_911", "responses")
 }

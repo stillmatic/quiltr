@@ -28,7 +28,7 @@ If you have trouble testing in Rstudio, follow [instructions](https://stackoverf
 Load data file:
 
 ```{r, echo=TRUE}
-seattle <- qload("akarve.seattle_911", "responses")
+seattle <- qload("akarve/seattle_911", "responses")
 ```
 
 ```{r, error=FALSE}

@@ -31,3 +31,17 @@ qlogout <- function() {
     quilt <- reticulate::import("quilt")
     quilt$logout()
 }
+
+#' See who has access to a package
+#'
+#' @param pkg USER/PACKAGE
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' qaccess_list("hua/iris")
+qaccess_list <- function(pkg) {
+    quilt <- reticulate::import("quilt")
+    quilt$access_list(pkg)
+}

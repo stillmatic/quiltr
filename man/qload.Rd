@@ -18,8 +18,8 @@ dataframe
 Load file from Quilt
 }
 \examples{
-qload("akarve.examples", "README")
-qload("examples.wine", "quality")
-qload("examples.wine", "quality.red")
-qload("akarve.seattle_911", "responses")
+qload("akarve/examples", "README")
+qload("examples/wine", "quality")
+qload("examples/wine", "quality/red")
+qload("akarve/seattle_911", "responses")
 }
