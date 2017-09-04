@@ -36,7 +36,7 @@ qlogout <- function() {
 #'
 #' @param pkg USER/PACKAGE
 #'
-#' @return
+#' @return list of users with access to a package
 #' @export
 #'
 #' @examples
